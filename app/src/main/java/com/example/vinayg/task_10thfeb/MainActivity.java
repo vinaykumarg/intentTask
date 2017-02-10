@@ -72,14 +72,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bitmap photo = BitmapFactory.decodeFile(mCurrentPhotoPath);
             mImageView.setImageBitmap(photo);
         }
-        if (requestCode==PICK_IMAGE&& resultCode==Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                mImageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        else if (requestCode==PICK_IMAGE&& resultCode==Activity.RESULT_OK) {
+                Uri uri = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    mImageView.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
     }
 
@@ -127,10 +127,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void dispatchImageFromGallery() {
         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getIntent.setType("image/*");
-
         Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         pickIntent.setType("image/*");
-
         Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
         startActivityForResult(chooserIntent, PICK_IMAGE);
